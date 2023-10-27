@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clerkId String         @unique
+  email   String         @unique
+  entries JournalEntry[]
+}
+
+model JournalEntry {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  content  String    @db.Text
+  //								^ full blown text without fixed width char (only for mysql?)
+  analysis Analysis?
+  // 						 	^ optional relation (because it's a 1:1 relation and you need to be able to create an entry without an analysis because you can't create an analysis without an entry)
+
+  @@index([userId])
+}
+
+model Analysis {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entryId String       @unique
+  entry   JournalEntry @relation(fields: [entryId], references: [id])
+
+  mood     String
+  summary  String  @db.Text
+  color    String
+  negative Boolean
+
+  @@index([entryId])
+}
