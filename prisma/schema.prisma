@@ -33,7 +33,7 @@ model JournalEntry {
   analysis Analysis?
   // 						 	^ optional relation (because it's a 1:1 relation and you need to be able to create an entry without an analysis because you can't create an analysis without an entry)
 
-  @@index([userId])
+  @@unique([userId, id]) // compound index.
 }
 
 model Analysis {
