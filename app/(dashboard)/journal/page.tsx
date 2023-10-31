@@ -3,6 +3,7 @@
 
 import EntryCard from '@/app/components/entry-card';
 import NewEntryCard from '@/app/components/new-entry-card';
+import { analyze } from '@/utils/ai';
 import { getUserByClerkID } from '@/utils/auth';
 import { prisma } from '@/utils/db';
 import { getURL } from 'next/dist/shared/lib/utils';
