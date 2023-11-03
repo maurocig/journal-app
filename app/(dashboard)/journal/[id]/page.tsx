@@ -26,41 +26,15 @@ type EntryPageProps = {
 };
 
 export default async function EntryPage({ params }: EntryPageProps) {
-  const entry = await getEntry(params.id);
-
-  const { mood, summary, color, subject, negative } = entry?.analysis!; // asserting that every entry has an analysis.
-  const analysisData = [
-    { name: 'Subject', value: subject },
-    { name: 'Summary', value: summary },
-    { name: 'Mood', value: mood },
-    { name: 'Negative', value: negative ? 'True' : 'False' },
-    { name: 'Color', value: color },
-  ];
+  const entry = await getEntry(params.id)!;
 
   return (
-    <div className="grid h-full w-full grid-cols-3">
-      <div className="col-span-2">
-        {entry && <Editor entry={entry} />}
-        {!entry && 'The entry was found'}
-      </div>
-      <div className="border-l border-black/10">
-        <div className="px-6 py-10" style={{ backgroundColor: color }}>
-          <h2 className="text-2xl">Analysis</h2>
-        </div>
-        <div>
-          <ul>
-            {analysisData.map((item) => (
-              <li
-                key={item.name}
-                className="flex items-center justify-between border-b border-black/10 px-2 py-4"
-              >
-                <span className="text-lg font-semibold">{item.name}</span>
-                <span>{item.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+    <div className="h-full w-full ">
+      {entry && entry.analysis && (
+        <Editor entry={entry} analysis={entry.analysis} />
+      )}
+      {!entry && 'The entry was not found.'}
+      {!entry?.analysis && 'The entry analysis was not found.'}
     </div>
   );
 }

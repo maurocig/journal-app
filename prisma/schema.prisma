@@ -42,7 +42,8 @@ model Analysis {
   updatedAt DateTime @updatedAt
 
   entryId String       @unique
-  entry   JournalEntry @relation(fields: [entryId], references: [id])
+  entry   JournalEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  // 																																	^ otherwise you can't delete an entry if it has an analysis
 
   mood     String
   summary  String  @db.Text
