@@ -3,6 +3,7 @@
 
 import EntryCard from '@/app/components/entry-card';
 import NewEntryCard from '@/app/components/new-entry-card';
+import Question from '@/app/components/question';
 import { analyze } from '@/utils/ai';
 import { getUserByClerkID } from '@/utils/auth';
 import { prisma } from '@/utils/db';
@@ -31,6 +32,9 @@ export default async function JournalPage({}: JournalPageProps) {
   return (
     <div className="h-full bg-zinc-400/10 p-10">
       <h2 className="mb-8 text-3xl">Journal</h2>
+      <div className="my-8">
+        <Question />
+      </div>
       <div className="grid grid-cols-3 gap-4">
         <NewEntryCard />
         {entries.map((entry) => (

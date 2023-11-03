@@ -29,3 +29,17 @@ export const createNewEntry = async () => {
     return data.data;
   }
 };
+
+export const askQuestion = async (question: string) => {
+  const response = await fetch(
+    new Request(createURL('/api/question'), {
+      method: 'POST',
+      body: JSON.stringify({ question }),
+    }),
+  );
+
+  if (response.ok) {
+    const data = await response.json();
+    return data.data;
+  }
+};
